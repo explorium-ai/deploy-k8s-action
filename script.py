@@ -6,7 +6,6 @@ dct = yaml.load(os.environ["CHARTS"],yaml.Loader)
 for key in dct:
     helm_name = key
     helm_options = dct[key]
-    # helm upgrade -i sealed-secrets-controller --namespace kube-system --version 2.1.5 sealed-secrets/sealed-secrets --set image.registry=docker.io
     subprocess.run(
         [
             "helm", 
