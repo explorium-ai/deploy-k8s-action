@@ -2,7 +2,7 @@ import os
 import yaml
 import subprocess
 
-dct = yaml.load(os.environ["CHARTS"])
+dct = yaml.load(os.environ["CHARTS"],yaml.Loader)
 for key in dct:
     helm_name = key
     helm_options = dct[key]
