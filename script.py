@@ -26,7 +26,8 @@ for key in dct:
                 helm_name,
                 "--wait",
                 "--create-namespace",
-                "--dependency-update"
+                "--dependency-update",
+                "--debug"
             ] 
             + 
             ([
@@ -66,6 +67,7 @@ for key in dct:
                 helm_name,
                 "--wait",
                 "--create-namespace",
+                "--debug"
             ] 
             + 
             ([
