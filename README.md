@@ -61,12 +61,12 @@ This action takes care of all things needed in order to deploy Helm Charts and O
 ## Advanced - Workflow With Docker Build, Caching and Registry Injection
 
 ```yaml
-name: k3d
+name: Test Build and Deploy to Local Cluster
 
 on:
   push:
     branches:
-      - k3d-main
+      - main
 
 jobs:
   build_and_deploy_to_k3s:
