@@ -44,7 +44,7 @@ for key in dct:
             ]
         )
     elif helm_options["type"] == "git":
-        Repo.clone_from(helm_options["repo"], helm_name)
+        Repo.clone_from(helm_options["repo"], helm_name,branch=helm_options["branch"])
         os.chdir(helm_name)
         subprocess.run(
             [
@@ -65,7 +65,7 @@ for key in dct:
             ] if ("values" in helm_options) else [])
             +
             [
-                "."
+                "./"+helm_options["path"]
             ]
         )
         os.chdir(os.path.dirname(os.getcwd()))
