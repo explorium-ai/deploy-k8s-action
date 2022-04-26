@@ -4,15 +4,15 @@ branding:
   icon: upload-cloud
   color: blue
 inputs:
-  local:
+  install_local_cluster:
     description: 'To Create Local K3D Cluster'
     required: false
     default: "false"
-  local_name:
+  local_cluster_name:
     description: 'Name of Cluster if using K3d Local cluster'
     required: false
     default: "mycluster"    
-  local_args:
+  local_cluster_args:
     description: 'Args if using K3d Local Cluster'
     required: false
     default: >-
@@ -35,14 +35,14 @@ runs:
   using: "composite"
   steps:
     - name: "create k3d cluster"
-      if: ${{ fromJSON(inputs.local) }}
+      if: ${{ fromJSON(inputs.install_local_cluster) }}
       uses: AbsaOSS/k3d-action@v2.3.0
       with:
-        cluster-name: ${{inputs.local_name}}
-        args: ${{inputs.local_args}}
+        cluster-name: ${{inputs.local_cluster_name}}
+        args: ${{inputs.local_cluster_args}}
     - name: Generate KUBECONFIG File
       run: |
-        if [[ ${{ fromJSON(inputs.local) }} ]]
+        if [[ ${{ fromJSON(inputs.install_local_cluster) }} ]]
         then
           echo "::set-output name=kubeconfig::$(cat $HOME/.kube/config)"        
         else
