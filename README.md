@@ -7,7 +7,7 @@ This action takes care of all things needed in order to deploy Helm Charts and O
 | ------ | ------ | ------ | ------ | ------
 | install_local_cluster | Boolean (String) | Install a local K3d Cluster | true | Yes
 | local_cluster_name | String | Name of local Cluster if Chosen | mycluster | No |
-| local_cluster_args | String | Args passed to the K3d Cluster | -p "8080:80@loadbalancer" -p "9443:443@loadbalancer" --api-port 6443 --servers 1 --agents 1 --verbose --k3s-node-label "node=ondemand@server:0;agent:0" --k3s-arg "--disable=traefik@server:0"    | No |
+| local_cluster_args | String | Args passed to the K3d Cluster | -p "8080:80@loadbalancer" -p "9443:443@loadbalancer" --api-port 6443 --servers 1 --agents 1 --verbose --k3s-node-label "node=ondemand@server:0;agent:0" --k3s-arg "--disable=traefik@server:0" | No |
 | pre_commands | Multiline String | Shell Commands to run before installing Helm Charts | '' | No |
 | post_commands | Multiline String | Shell Commands to run after installing Helm Charts | '' | No |
 | kubeconfig | String | kubeconfig file to connect to a remote cluster. Do not set if using Local Cluster  | /home/runner/.kube/config | No |

@@ -1,5 +1,5 @@
 name: 'Deploy K8s Application'
-description: 'Greet someone'
+description: 'This action takes care of all things needed in order to deploy Helm Charts and Other kubernetes resources on a Local K3D Cluster or a Remote K8s Cluster.'
 branding:
   icon: upload-cloud
   color: blue
