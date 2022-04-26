@@ -49,6 +49,8 @@ runs:
           echo "::set-output name=kubeconfig::$(echo ${{inputs.kubeconfig}})"
         fi        
       shell: bash
+    - run: python3 -m pip install gitpython
+      shell: bash
     - run: python3 ${{ github.action_path }}/script.py
       shell: bash
       env:
