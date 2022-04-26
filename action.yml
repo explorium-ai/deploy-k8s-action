@@ -6,8 +6,8 @@ branding:
 inputs:
   install_local_cluster:
     description: 'To Create Local K3D Cluster'
-    required: false
-    default: "false"
+    required: true
+    default: "true"
   local_cluster_name:
     description: 'Name of Cluster if using K3d Local cluster'
     required: false
