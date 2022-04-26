@@ -24,6 +24,10 @@ inputs:
       --verbose 
       --k3s-node-label "node=ondemand@server:0;agent:0"
       --k3s-arg "--disable=traefik@server:0"      
+  cluster_commands:
+    description: 'Extra commands to run before installing helm charts'
+    required: false
+    default: ''
   kubeconfig:
     description: 'Kubernetes Cluster Configuration File'
     required: false
@@ -34,7 +38,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: "create k3d cluster"
+    - name: Create k3d cluster
       if: ${{ fromJSON(inputs.install_local_cluster) }}
       uses: AbsaOSS/k3d-action@v2.3.0
       with:
@@ -49,6 +53,13 @@ runs:
           echo "::set-output name=kubeconfig::$(echo ${{inputs.kubeconfig}})"
         fi        
       shell: bash
+    - name: Extra commands
+      if: ${{ inputs.cluster_commands }} != ''
+      shell: bash
+      run: |
+         ${{inputs.cluster_commands}}
+      env:
+        KUBECONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
     - run: python3 -m pip install gitpython
       shell: bash
     - run: python3 ${{ github.action_path }}/script.py
