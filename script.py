@@ -25,8 +25,7 @@ for key in dct:
             "--wait",
             "--namespace={}".format(helm_options["namespace"]) if ("namespace" in helm_options) else "",
             "--create-namespace",
-            "--version",
-            helm_options["version"],
+            "--version={}".format(helm_options["version"]) if ("version" in helm_options) else "",
             helm_options["repo_name"]+"/"+helm_options["chart"]
         ] 
         + 
