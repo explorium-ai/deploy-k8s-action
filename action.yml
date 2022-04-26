@@ -39,6 +39,7 @@ inputs:
   charts:
     description: "Helm Charts to deploy. Using the following Yaml Syntax"
     required: false
+    default: ''
 runs:
   using: "composite"
   steps:
@@ -65,8 +66,10 @@ runs:
       env:
         KUBECONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
     - run: python3 -m pip install gitpython
+      if: ${{ inputs.charts }} != ''
       shell: bash
     - run: python3 ${{ github.action_path }}/script.py
+      if: ${{ inputs.charts }} != ''
       shell: bash
       env:
         KUBECONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
