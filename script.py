@@ -10,7 +10,7 @@ for key in dct:
     subprocess.run(
         [
             "helm", 
-            "update",
+            "upgrade",
             "-i",
             helm_name,
             "--namespace {}".format(helm_options["namespace"]) if ("namespace" in helm_options) else "",
