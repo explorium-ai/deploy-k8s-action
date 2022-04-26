@@ -27,7 +27,7 @@ for key in dct:
             "--create-namespace",
             "--version",
             helm_options["version"],
-            helm_options["name"]
+            helm_options["repo_name"]+"/"+helm_options["chart"]
         ] 
         + 
         [
