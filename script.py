@@ -33,7 +33,11 @@ for key in dct:
             ([
                 "--namespace={}".format(helm_options["namespace"])
             ] if ("namespace" in helm_options) else [])
-            + 
++           +
+            ([
+                "--timeout={}".format(helm_options["timeout"])
+            ] if ("timeout" in helm_options) else [])
+            +
             ([
                 "--version={}".format(helm_options["version"])
             ] if ("version" in helm_options) else [])        
@@ -73,6 +77,10 @@ for key in dct:
             ([
                 "--namespace={}".format(helm_options["namespace"])
             ] if ("namespace" in helm_options) else [])
+            + 
+            ([
+                "--timeout={}".format(helm_options["timeout"])
+            ] if ("timeout" in helm_options) else [])
             + 
             ([
                 "--set={key}={value}".format(key = x["key"], value = x["value"]) for x in helm_options["values"]
