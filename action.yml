@@ -36,11 +36,11 @@ runs:
   steps:
     - name: "create k3d cluster"
       if: ${{ fromJSON(inputs.local) }}
-      uses: AbsaOSS/k3d-action@v2.2.0
+      uses: AbsaOSS/k3d-action@v2.3.0
       with:
         cluster-name: ${{inputs.local_name}}
         args: ${{inputs.local_args}}
-    - name: Generate KubeConfig File
+    - name: Generate KUBECONFIG File
       run: |
         if [[ ${{ fromJSON(inputs.local) }} ]]
         then
@@ -49,8 +49,6 @@ runs:
           echo "::set-output name=kubeconfig::$(echo ${{inputs.kubeconfig}})"
         fi        
       shell: bash
-    # - run: python -m pip install PyGithub
-    #   shell: bash      
     - run: python3 ${{ github.action_path }}/script.py
       shell: bash
       env:
