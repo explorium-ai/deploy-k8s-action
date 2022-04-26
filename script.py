@@ -10,6 +10,15 @@ for key in dct:
     subprocess.run(
         [
             "helm", 
+            "repo",
+            "add",
+            helm_options["repo_name"],
+            helm_options["repo"]
+        ]
+    )    
+    subprocess.run(
+        [
+            "helm", 
             "upgrade",
             "-i",
             helm_name,
@@ -19,8 +28,9 @@ for key in dct:
             "--version",
             helm_options["version"],
             helm_options["name"]
-        ] + 
+        ] 
+        + 
         [
-            "--set {key}={value}".format(key = x["key"], value = x["value"]) for x in helm_options["values"]
+            "--set={key}={value}".format(key = x["key"], value = x["value"]) for x in helm_options["values"]
         ]
     )
