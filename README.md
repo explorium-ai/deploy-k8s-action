@@ -12,6 +12,7 @@ This action takes care of all things needed in order to deploy Helm Charts and O
 | post_commands | Multiline String | Shell Commands to run after installing Helm Charts | '' | No |
 | kubeconfig | String | kubeconfig file to connect to a remote cluster. Do not set if using Local Cluster  | /home/runner/.kube/config | No |
 | charts | Multiline String | The Helm Charts to deploy to the cluster | None | No |
+| k3d-version | String | (Optional) Override Default k3d version | v5.4.1 | No |
 
 ## Full Example usage
 
