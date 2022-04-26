@@ -38,7 +38,7 @@ This action takes care of all things needed in order to deploy Helm Charts and O
         namespace: kube-system # Default if ommited. Created during install.
         values:
           - key: image.registry
-          value: docker.io
+            value: docker.io
       keda:
         type: helm
         repo: https://kedacore.github.io/charts
