@@ -30,7 +30,7 @@ for key in dct:
             helm_options["repo_name"]+"/"+helm_options["chart"]
         ] 
         + 
-        [
+        ([
             "--set={key}={value}".format(key = x["key"], value = x["value"]) for x in helm_options["values"]
-        ] if ("values" in helm_options) else []
+        ] if ("values" in helm_options) else [])
     )
