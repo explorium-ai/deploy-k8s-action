@@ -58,3 +58,78 @@ This action takes care of all things needed in order to deploy Helm Charts and O
     post_commands: |
       kubectl get pods -n localhost
 ```
+## Advanced - Workflow With Docker Build, Caching and Registry Injection
+
+```yaml
+name: k3d
+
+on:
+  push:
+    branches:
+      - k3d-main
+
+jobs:
+  build_and_deploy_to_k3s:
+    runs-on: ubuntu-latest
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
+        options: --name registry --hostname registry
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+
+      - name: Build and Tag
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: Dockerfile
+          tags: localhost:5000/${{ github.event.repository.name }}:github
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Save Local Registry Configuration to File
+        run: |
+          cat <<EOT >> registries.yaml
+          mirrors:
+            "registry:5000":
+              endpoint:
+                - http://registry:5000
+          EOT
+            
+      - name: Deploy K8s
+        uses: explorium-ai/deploy-k8s-action@main
+        with:
+          install_local_cluster: true
+          local_cluster_name: platform-cluster
+          pre_commands: |
+            docker network connect k3d-platform-cluster registry
+          local_cluster_args: >-
+            --servers 1
+            --agents 1
+            --registry-config "registries.yaml"
+          charts: >-
+            platform:
+              type: git
+              repo: https://github.com/myorg/helmrepo.git
+              token: ${{ secrets.GITHUB_TOKEN }} # To connect to the repository
+              branch: main
+              path: environments/dev/platform
+              namespace: localhost      
+              timeout: 10m
+              values:
+                - key: image.repository
+                  value: registry:5000/${{ github.event.repository.name }}
+                - key: image.tag
+                  value: github
+          post_commands: |
+            kubectl get pods -n localhost
+```            
