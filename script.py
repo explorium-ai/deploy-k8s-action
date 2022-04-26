@@ -26,6 +26,7 @@ for key in dct:
                 helm_name,
                 "--wait",
                 "--create-namespace",
+                "--dependency-update"
             ] 
             + 
             ([
