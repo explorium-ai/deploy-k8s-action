@@ -1,3 +1,4 @@
+import base64
 import os
 import yaml
 import subprocess
@@ -44,7 +45,15 @@ for key in dct:
             ]
         )
     elif helm_options["type"] == "git":
-        Repo.clone_from(helm_options["repo"], helm_name,branch=helm_options["branch"])
+        credentials = base64.b64encode(f"{helm_options['token']}:".encode("latin-1")).decode("latin-1")
+        Repo.clone_from(
+            url=helm_options["repo"],
+            to_path=helm_name,
+            branch=helm_options["branch"],
+            single_branch=True,
+            depth=1,
+            c=f"http.{helm_options['repo']}/.extraheader=AUTHORIZATION: basic {credentials}"
+        )
         os.chdir(helm_name)
         subprocess.run(
             [
