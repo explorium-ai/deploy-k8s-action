@@ -51,7 +51,8 @@ runs:
       shell: bash
     # - run: python -m pip install PyGithub
     #   shell: bash      
-    - run: python3 ${{ github.action_path }}/script.py ${{ inputs.charts }}
+    - run: python3 ${{ github.action_path }}/script.py
       shell: bash
       env:
         KUBECONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
+        CHARTS: ${{ inputs.charts }}
