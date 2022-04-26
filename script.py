@@ -13,7 +13,9 @@ for key in dct:
             "upgrade",
             "-i",
             helm_name,
-            "--namespace {}".format(helm_options["namespace"]) if ("namespace" in helm_options) else "",
+            "--wait",
+            "--namespace={}".format(helm_options["namespace"]) if ("namespace" in helm_options) else "",
+            "--create-namespace",
             "--version",
             helm_options["version"],
             helm_options["name"]
