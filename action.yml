@@ -49,8 +49,6 @@ runs:
           echo "::set-output name=kubeconfig::$(echo ${{inputs.kubeconfig}})"
         fi        
       shell: bash
-    - run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-      shell: bash
     - run: python3 -m pip install gitpython
       shell: bash
     - run: python3 ${{ github.action_path }}/script.py

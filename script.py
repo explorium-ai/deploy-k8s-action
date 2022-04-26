@@ -56,6 +56,8 @@ for key in dct:
             c=f"http.{helm_options['repo']}/.extraheader=AUTHORIZATION: basic {credentials}"
         )
         os.chdir(helm_name)
+        p = subprocess.Popen(["helm", "dependency","update"], cwd="./"+helm_options["path"])
+        p.wait()
         subprocess.run(
             [
                 "helm", 
@@ -64,7 +66,6 @@ for key in dct:
                 helm_name,
                 "--wait",
                 "--create-namespace",
-                "--dependency-update"
             ] 
             + 
             ([
