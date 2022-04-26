@@ -33,7 +33,7 @@ for key in dct:
             ([
                 "--namespace={}".format(helm_options["namespace"])
             ] if ("namespace" in helm_options) else [])
-+           +
+            +
             ([
                 "--timeout={}".format(helm_options["timeout"])
             ] if ("timeout" in helm_options) else [])
