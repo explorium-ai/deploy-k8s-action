@@ -9,7 +9,7 @@ for key in dct:
     helm_name = key
     helm_options = dct[key]
     if helm_options["type"] == "helm":
-        subprocess.run(
+        p = subprocess.run(
             [
                 "helm", 
                 "repo",
@@ -17,7 +17,7 @@ for key in dct:
                 helm_options["repo_name"],
                 helm_options["repo"]
             ]
-        ,check=True)
+        ,check=True).returncode
         subprocess.run(
             [
                 "helm", 
@@ -61,8 +61,10 @@ for key in dct:
             c=f"http.{helm_options['repo']}/.extraheader=AUTHORIZATION: basic {credentials}"
         )
         os.chdir(helm_name)
-        subprocess.run(["helm", "dependency","update"], cwd="./"+helm_options["path"],check=True)
-        subprocess.run(
+        p = subprocess.run(["helm", "dependency","update"], cwd="./"+helm_options["path"],check=True).returncode
+        print("helm repo add return:")
+        print(p)
+        p = subprocess.run(
             [
                 "helm", 
                 "upgrade",
@@ -88,5 +90,7 @@ for key in dct:
             [
                 "./"+helm_options["path"]
             ]
-        ,check=True)
+        ,check=True).returncode
+        print("helm install return:")
+        print(p)
         os.chdir(os.path.dirname(os.getcwd()))
