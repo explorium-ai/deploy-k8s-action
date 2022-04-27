@@ -17,7 +17,7 @@ for key in dct:
                 helm_options["repo_name"],
                 helm_options["repo"]
             ]
-        )
+        ,check=True)
         subprocess.run(
             [
                 "helm", 
@@ -49,7 +49,7 @@ for key in dct:
             [
                 helm_options["repo_name"]+"/"+helm_options["chart"]
             ]
-        )
+        ,check=True)
     elif helm_options["type"] == "git":
         credentials = base64.b64encode(f"{helm_options['token']}:".encode("latin-1")).decode("latin-1")
         Repo.clone_from(
@@ -61,8 +61,7 @@ for key in dct:
             c=f"http.{helm_options['repo']}/.extraheader=AUTHORIZATION: basic {credentials}"
         )
         os.chdir(helm_name)
-        p = subprocess.Popen(["helm", "dependency","update"], cwd="./"+helm_options["path"])
-        p.wait()
+        subprocess.run(["helm", "dependency","update"], cwd="./"+helm_options["path"],check=True)
         subprocess.run(
             [
                 "helm", 
@@ -89,5 +88,5 @@ for key in dct:
             [
                 "./"+helm_options["path"]
             ]
-        )
+        ,check=True)
         os.chdir(os.path.dirname(os.getcwd()))
