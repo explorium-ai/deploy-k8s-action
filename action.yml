@@ -73,6 +73,10 @@ runs:
     - run: python3 -m pip install gitpython
       if: ${{ inputs.charts }} != ''
       shell: bash
+    - uses: azure/setup-helm@v2
+      with:
+        version: 'v3.8.2'
+      id: install      
     - run: python3 ${{ github.action_path }}/script.py
       if: ${{ inputs.charts }} != ''
       shell: bash
