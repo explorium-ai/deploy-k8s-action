@@ -3,6 +3,7 @@ import os
 import yaml
 import subprocess
 from git import Repo
+import sys
 
 dct = yaml.load(os.environ["CHARTS"],yaml.Loader)
 for key in dct:
@@ -17,7 +18,7 @@ for key in dct:
                 helm_options["repo_name"],
                 helm_options["repo"]
             ]
-        ,check=True)
+        ,check=True,stdout=sys.stdout, stderr=subprocess.STDOUT)
         subprocess.run(
             [
                 "helm", 
@@ -49,7 +50,7 @@ for key in dct:
             [
                 helm_options["repo_name"]+"/"+helm_options["chart"]
             ]
-        ,check=True)
+        ,check=True,stdout=sys.stdout, stderr=subprocess.STDOUT)
     elif helm_options["type"] == "git":
         credentials = base64.b64encode(f"{helm_options['token']}:".encode("latin-1")).decode("latin-1")
         Repo.clone_from(
@@ -61,7 +62,7 @@ for key in dct:
             c=f"http.{helm_options['repo']}/.extraheader=AUTHORIZATION: basic {credentials}"
         )
         os.chdir(helm_name)
-        subprocess.run(["helm", "dependency","update"], cwd="./"+helm_options["path"],check=True)
+        subprocess.run(["helm", "dependency","update"], cwd="./"+helm_options["path"],check=True,stdout=sys.stdout, stderr=subprocess.STDOUT)
         subprocess.run(
             [
                 "helm", 
@@ -88,5 +89,5 @@ for key in dct:
             [
                 "./"+helm_options["path"]
             ]
-        ,check=True)
+        ,check=True,stdout=sys.stdout, stderr=subprocess.STDOUT)
         os.chdir(os.path.dirname(os.getcwd()))
