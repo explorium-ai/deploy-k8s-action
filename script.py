@@ -93,6 +93,9 @@ for key in dct:
         ,check=True).returncode
         print("helm install return:")
         print(p)
+        p = subprocess.check_output(["helm", "status","keda"])
+        print("helm status return keda:")
+        print(p)        
         p = subprocess.check_output(["helm", "status",helm_name])
         print("helm status return:")
         print(p)
