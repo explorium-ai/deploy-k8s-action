@@ -2,6 +2,7 @@ import base64
 import os
 import yaml
 import subprocess
+import sys
 from git import Repo
 
 dct = yaml.load(os.environ["CHARTS"],yaml.Loader)
@@ -93,7 +94,8 @@ for key in dct:
         ,check=True).returncode
         print("helm install return:")
         print(p)
-        subprocess.check_output(["helm", "list","-a","-A"])
+        subprocess.check_call(["helm", "list","-a","-A"], stdout=sys.stdout, stderr=subprocess.STDOUT)
+
         try:
             subprocess.check_output(["helm", "status","sealed-secrets-controller"])
         except subprocess.CalledProcessError as e:
