@@ -2,7 +2,6 @@ import base64
 import os
 import yaml
 import subprocess
-import sys
 from git import Repo
 
 dct = yaml.load(os.environ["CHARTS"],yaml.Loader)
@@ -10,7 +9,7 @@ for key in dct:
     helm_name = key
     helm_options = dct[key]
     if helm_options["type"] == "helm":
-        p = subprocess.run(
+        subprocess.run(
             [
                 "helm", 
                 "repo",
@@ -18,7 +17,7 @@ for key in dct:
                 helm_options["repo_name"],
                 helm_options["repo"]
             ]
-        ,check=True).returncode
+        ,check=True)
         subprocess.run(
             [
                 "helm", 
@@ -62,10 +61,8 @@ for key in dct:
             c=f"http.{helm_options['repo']}/.extraheader=AUTHORIZATION: basic {credentials}"
         )
         os.chdir(helm_name)
-        p = subprocess.run(["helm", "dependency","update"], cwd="./"+helm_options["path"],check=True).returncode
-        print("helm repo add return:")
-        print(p)
-        p = subprocess.run(
+        subprocess.run(["helm", "dependency","update"], cwd="./"+helm_options["path"],check=True)
+        subprocess.run(
             [
                 "helm", 
                 "upgrade",
@@ -91,18 +88,5 @@ for key in dct:
             [
                 "./"+helm_options["path"]
             ]
-        ,check=True).returncode
-        print("helm install return:")
-        print(p)
-        subprocess.check_call(["helm", "list","-a","-A"], stdout=sys.stdout, stderr=subprocess.STDOUT)
-
-        try:
-            subprocess.check_output(["helm", "status","sealed-secrets-controller"])
-        except subprocess.CalledProcessError as e:
-            print(e.output)
-        try:
-            subprocess.check_output(["helm", "status",helm_name])
-        except subprocess.CalledProcessError as e:
-            print(e.output)            
-        
+        ,check=True)
         os.chdir(os.path.dirname(os.getcwd()))
