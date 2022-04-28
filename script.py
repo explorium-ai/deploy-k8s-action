@@ -5,6 +5,7 @@ import subprocess
 from git import Repo
 import sys
 
+catch_errors = (True if (os.environ["CATCH"] == "true") else False)
 dct = yaml.load(os.environ["CHARTS"],yaml.Loader)
 for key in dct:
     helm_name = key
@@ -18,7 +19,7 @@ for key in dct:
                 helm_options["repo_name"],
                 helm_options["repo"]
             ]
-        ,check=True,stdout=sys.stdout, stderr=subprocess.STDOUT)
+        ,check=catch_errors,stdout=sys.stdout, stderr=subprocess.STDOUT)
         subprocess.run(
             [
                 "helm", 
@@ -50,7 +51,7 @@ for key in dct:
             [
                 helm_options["repo_name"]+"/"+helm_options["chart"]
             ]
-        ,check=True,stdout=sys.stdout, stderr=subprocess.STDOUT)
+        ,check=catch_errors,stdout=sys.stdout, stderr=subprocess.STDOUT)
     elif helm_options["type"] == "git":
         credentials = base64.b64encode(f"{helm_options['token']}:".encode("latin-1")).decode("latin-1")
         Repo.clone_from(
@@ -89,5 +90,5 @@ for key in dct:
             [
                 "./"+helm_options["path"]
             ]
-        ,check=True,stdout=sys.stdout, stderr=subprocess.STDOUT)
+        ,check=catch_errors,stdout=sys.stdout, stderr=subprocess.STDOUT)
         os.chdir(os.path.dirname(os.getcwd()))

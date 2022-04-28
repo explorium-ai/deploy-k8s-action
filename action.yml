@@ -44,6 +44,10 @@ inputs:
     description: "Helm Charts to deploy. Using the following Yaml Syntax"
     required: false
     default: ''
+  catch_chart_errors:
+    description: "If to exit on unsuccesful helm chart installations "
+    required: false
+    default: "false"
 runs:
   using: "composite"
   steps:
@@ -79,6 +83,7 @@ runs:
       env:
         KUBECONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
         CHARTS: ${{ inputs.charts }}
+        CATCH: ${{ inputs.catch_chart_errors }}
     - name: post commands
       if: ${{ inputs.post_commands }} != ''
       shell: bash

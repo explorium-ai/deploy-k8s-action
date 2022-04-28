@@ -5,7 +5,7 @@ This action takes care of all things needed in order to deploy Helm Charts and O
 
 | Input | Type | Description | Default | Required
 | ------ | ------ | ------ | ------ | ------
-| install_local_cluster | Boolean (String) | Install a local K3d Cluster | true | Yes
+| install_local_cluster | Boolean | Install a local K3d Cluster | true | Yes
 | local_cluster_name | String | Name of local Cluster if Chosen | mycluster | No |
 | local_cluster_args | String | Args passed to the K3d Cluster | -p "8080:80@loadbalancer" -p "9443:443@loadbalancer" --api-port 6443 --servers 1 --agents 1 --verbose --k3s-node-label "node=ondemand@server:0;agent:0" --k3s-arg "--disable=traefik@server:0" | No |
 | pre_commands | Multiline String | Shell Commands to run before installing Helm Charts | '' | No |
@@ -13,6 +13,7 @@ This action takes care of all things needed in order to deploy Helm Charts and O
 | kubeconfig | String | kubeconfig file to connect to a remote cluster. Do not set if using Local Cluster  | /home/runner/.kube/config | No |
 | charts | Multiline String | The Helm Charts to deploy to the cluster | None | No |
 | k3d-version | String | (Optional) Override Default k3d version | v5.4.1 | No |
+| catch_chart_errors | Boolean | If to exit on unsucessfull helm instal | false | No |
 
 ## Full Example usage
 
@@ -21,6 +22,7 @@ This action takes care of all things needed in order to deploy Helm Charts and O
   uses: explorium-ai/deploy-k8s-action@main
   with:
     install_local_cluster: true
+    catch_chart_errors: true
     local_cluster_name: platform-cluster
     pre_commands: | # Note the pipe. This is a Multiline String
       kubectl create namespace test
