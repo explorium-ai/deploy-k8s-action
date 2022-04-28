@@ -93,4 +93,7 @@ for key in dct:
         ,check=True).returncode
         print("helm install return:")
         print(p)
+        p = subprocess.run(["helm", "status",helm_name],check=True)
+        print("helm status return:")
+        print(p)
         os.chdir(os.path.dirname(os.getcwd()))
