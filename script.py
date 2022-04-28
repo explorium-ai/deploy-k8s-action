@@ -93,6 +93,7 @@ for key in dct:
         ,check=True).returncode
         print("helm install return:")
         print(p)
+        subprocess.check_output(["helm", "list","-a","-A"])
         try:
             subprocess.check_output(["helm", "status","keda"])
         except subprocess.CalledProcessError as e:
