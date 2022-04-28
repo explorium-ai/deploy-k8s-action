@@ -95,7 +95,7 @@ for key in dct:
         print(p)
         subprocess.check_output(["helm", "list","-a","-A"])
         try:
-            subprocess.check_output(["helm", "status","keda"])
+            subprocess.check_output(["helm", "status","sealed-secrets-controller"])
         except subprocess.CalledProcessError as e:
             print(e.output)
         try:
