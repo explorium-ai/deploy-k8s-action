@@ -63,7 +63,13 @@ for key in dct:
             c=f"http.{helm_options['repo']}/.extraheader=AUTHORIZATION: basic {credentials}"
         )
         os.chdir(helm_name)
-        subprocess.run(["helm", "dependency","update"], cwd="./"+helm_options["path"],check=True,stdout=sys.stdout, stderr=subprocess.STDOUT)
+        subprocess.run(
+            [
+                "helm", 
+                "dependency",
+                "update",
+                "--debug"
+            ], cwd="./"+helm_options["path"],check=True,stdout=sys.stdout, stderr=subprocess.STDOUT)
         subprocess.run(
             [
                 "helm", 
