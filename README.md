@@ -126,7 +126,7 @@ jobs:
               token: ${{ secrets.GITHUB_TOKEN }} # To connect to the repository
               branch: main
               path: environments/dev/platform
-              namespace: localhost      
+              namespace: test      
               timeout: 10m
               values:
                 - key: image.repository
@@ -134,7 +134,7 @@ jobs:
                 - key: image.tag
                   value: github
           post_commands: |
-            kubectl get pods -n localhost
+            kubectl get pods -n test
 ```            
 
 ## Remote AWS EKS Cluster
