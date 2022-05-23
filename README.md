@@ -136,3 +136,24 @@ jobs:
           post_commands: |
             kubectl get pods -n localhost
 ```            
+
+## Remote AWS EKS Cluster
+
+```yaml
+- uses: unfor19/install-aws-cli-action@v1.0.3
+  with:
+    arch: amd64
+
+- name: Login to Remote EKS
+  run: |
+    aws eks update-kubeconfig --region eu-west-1 --name my-cluster
+  env:
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
+- name: Deploy K8s
+  uses: explorium-ai/deploy-k8s-action@main
+  with:
+    install_local_cluster: false
+    kubeconfig: /home/runner/.kube/config
+```
