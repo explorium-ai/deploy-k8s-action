@@ -1,6 +1,6 @@
 # Deploy Helm Charts on Local or Remote K8s Cluster
 
-Deploy Helm Charts and other kubernetes resources on a Local K3d or a Remote K8s Cluster.
+Deploy Helm Charts and other Kubernetes resources on a Local K3d or a Remote K8s Cluster.
 ## Inputs
 
 | Input | Type | Description | Default | Required
