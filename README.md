@@ -143,13 +143,14 @@ jobs:
 - uses: unfor19/install-aws-cli-action@v1.0.3
   with:
     arch: amd64
-
+- name: Configure AWS credentials
+  uses: aws-actions/configure-aws-credentials@v4
+  with:
+    aws-region: eu-west-1
+    role-to-assume: ${{ secrets.PROD_GITHUB_ROLE }}
 - name: Login to Remote EKS
   run: |
     aws eks update-kubeconfig --region eu-west-1 --name my-cluster
-  env:
-    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     
 - name: Deploy K8s
   uses: explorium-ai/deploy-k8s-action@main
